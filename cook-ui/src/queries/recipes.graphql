@@ -1,0 +1,24 @@
+query ListRecipes {
+  recipes
+}
+
+query GetRecipe($path: String!) {
+  recipe(path: $path) {
+    metadata {
+      key
+      value
+    }
+    name
+    steps {
+      directions
+      ingredients {
+        amount {
+          isNumeric
+          quantity
+          unit
+        }
+        name
+      }
+    }
+  }
+}
