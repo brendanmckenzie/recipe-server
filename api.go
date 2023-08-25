@@ -8,7 +8,7 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-var fsys = os.DirFS(os.Args[1])
+var fsys = os.DirFS(os.Getenv("RECIPE_DIR"))
 
 var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "RootQuery",
