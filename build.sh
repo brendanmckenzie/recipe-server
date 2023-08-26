@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 set -ex
 
 pushd cook-ui

@@ -5,12 +5,16 @@ export const HomeRoute: React.FC = () => {
   const recipes = useLoaderData() as string[];
 
   return (
-    <ul>
-      {recipes.map((r) => (
-        <li key={r}>
-          <Link to={`/recipes/${r}`}>{r}</Link>
-        </li>
-      ))}
-    </ul>
+    <>
+      <h1>Recipes</h1>
+      <hr />
+      <ul>
+        {recipes.map((r) => (
+          <li key={r}>
+            <Link to={`/recipes/${r}`}>{r}</Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };

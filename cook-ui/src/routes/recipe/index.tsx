@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { Ingredient, Recipe } from "../../gql/graphql";
+import { useWakeLock } from "../../hooks/use-wake-lock";
 
 const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
   if (!input) {
@@ -22,6 +23,8 @@ const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
 };
 
 export const RecipeRoute: React.FC = () => {
+  const wakeLock = useWakeLock();
+
   const data = useLoaderData() as Recipe;
   const ingredientsFlat =
     data.steps
@@ -34,12 +37,37 @@ export const RecipeRoute: React.FC = () => {
   return (
     <>
       <h1>{data.name}</h1>
-      <h2>Ingredients</h2>
-      <ul>
-        {ingredientsFlat.map((ingredient, i) => (
-          <li key={i}>{ingredient}</li>
-        )) ?? null}
-      </ul>
+      <hr />
+      {wakeLock.isSupported ? (
+        <>
+          <button
+            type="button"
+            onClick={() =>
+              wakeLock.released === false
+                ? wakeLock.release()
+                : wakeLock.request()
+            }
+          >
+            {wakeLock.released === false
+              ? "Release screen keep active"
+              : "Keep screen active"}
+          </button>
+
+          <hr />
+        </>
+      ) : null}
+      <details>
+        <summary>
+          <strong>Ingredients</strong>
+        </summary>
+        <ul>
+          {ingredientsFlat.map((ingredient, i) => (
+            <li key={i}>{ingredient}</li>
+          )) ?? null}
+        </ul>
+      </details>
+      <hr />
+
       <h2>Method</h2>
       <ol>
         {data.steps

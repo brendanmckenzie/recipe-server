@@ -4,7 +4,6 @@ import (
 	"io/fs"
 	"os"
 
-	"github.com/aquilax/cooklang-go"
 	"github.com/graphql-go/graphql"
 )
 
@@ -105,14 +104,14 @@ func resolveRecipes(params graphql.ResolveParams) (interface{}, error) {
 	return matches, err
 }
 
-type MetadataItem struct {
+type MetadataItemObj struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
-type Recipe struct {
-	Name     string          `json:"name"`
-	Steps    []cooklang.Step `json:"steps"`
-	Metadata []MetadataItem  `json:"metadata"`
+type RecipeObj struct {
+	Name     string            `json:"name"`
+	Steps    []Step            `json:"steps"`
+	Metadata []MetadataItemObj `json:"metadata"`
 }
 
 func resolveRecipe(params graphql.ResolveParams) (interface{}, error) {
@@ -121,11 +120,11 @@ func resolveRecipe(params graphql.ResolveParams) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	recipe, err := cooklang.ParseString(string(recipeRaw))
+	recipe, err := ParseString(string(recipeRaw))
 
-	metadata := make([]MetadataItem, 0)
+	metadata := make([]MetadataItemObj, 0)
 	for key, value := range recipe.Metadata {
-		metadata = append(metadata, MetadataItem{
+		metadata = append(metadata, MetadataItemObj{
 			Key:   key,
 			Value: value,
 		})
@@ -136,7 +135,7 @@ func resolveRecipe(params graphql.ResolveParams) (interface{}, error) {
 		name = path
 	}
 
-	res := Recipe{
+	res := RecipeObj{
 		Name:     name,
 		Steps:    recipe.Steps,
 		Metadata: metadata,

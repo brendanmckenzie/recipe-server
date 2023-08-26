@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -37,8 +38,14 @@ func main() {
 
 	})
 
-	log.Printf("starting server on port 8080\n")
-	err := http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	host := fmt.Sprintf(":%s", port)
+	log.Printf("starting server on port %v\n", host)
+	err := http.ListenAndServe(host, nil)
 	if errors.Is(err, http.ErrServerClosed) {
 		log.Printf("server closed\n")
 	} else if err != nil {

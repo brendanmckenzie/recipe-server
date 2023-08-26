@@ -15,9 +15,34 @@ a {
 body {
   max-width: 800px;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1rem;
+}
+
+ol,
+ul {
+  padding-inline-start: 1rem;
 }
 
 ol > li {
   margin-bottom: 1rem;
+}
+ol > li > ul {
+  list-style-type: square;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  cursor: pointer;
+  &:hover {
+    background-color: #eee;
+  }
 }
