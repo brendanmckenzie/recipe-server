@@ -36,6 +36,8 @@ export const RecipeRoute: React.FC = () => {
 
   return (
     <>
+      <Link to="/">&larr; Home</Link>
+      <hr />
       <h1>{data.name}</h1>
       <hr />
       {wakeLock.isSupported ? (
