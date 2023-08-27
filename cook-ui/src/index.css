@@ -46,6 +46,7 @@ button {
   border-radius: 0.25rem;
   background-color: #fff;
   cursor: pointer;
+  color: currentColor;
   &:hover {
     background-color: #eee;
   }
@@ -68,4 +69,25 @@ dt {
 dd {
   margin-inline-start: 0.5rem;
   margin-inline-end: 1.5rem;
+}
+
+.ingredients {
+  list-style-type: square;
+}
+
+@media screen and (max-width: 800px) {
+  button {
+    width: 100%;
+  }
+
+  .ingredients {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  .ingredients li {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
 }

@@ -9,18 +9,25 @@ const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
   }
   if (input.amount?.unit) {
     return (
-      <span>
-        {input.name} × {input.amount.quantity} {input.amount.unit}
-      </span>
+      <>
+        <span>{input.name}</span>{" "}
+        <span>
+          × {input.amount.quantity} {input.amount.unit}
+        </span>
+      </>
     );
   } else if (input.amount?.quantity) {
     return (
-      <span>
-        {input.name} × {input.amount.quantity}
-      </span>
+      <>
+        <span>{input.name}</span> <span>× {input.amount.quantity}</span>
+      </>
     );
   }
-  return <span>{input.name}</span>;
+  return (
+    <>
+      <span>{input.name}</span>
+    </>
+  );
 };
 
 export const RecipeRoute: React.FC = () => {
@@ -31,9 +38,32 @@ export const RecipeRoute: React.FC = () => {
     data.steps
       ?.map((step) => step?.ingredients ?? [])
       .filter(Boolean)
+      .flat(1) ?? [];
+
+  const incredientNames = ingredientsFlat
+    .map((a) => a?.name)
+    .filter((ent, cur, arr) => arr.indexOf(ent) === cur);
+
+  const ingredientsWithAmount = incredientNames.map((name) => {
+    const amount = ingredientsFlat
+      .filter((ingredient) => ingredient?.name === name)
+      .map((ingredient) => ingredient?.amount)
+      .filter(Boolean)
       .flat(1)
-      .map((a) => a?.name)
-      .filter((ent, cur, arr) => arr.indexOf(ent) === cur) ?? [];
+      .reduce(
+        (acc, cur) => {
+          return {
+            quantity: (acc?.quantity ?? 0) + (cur?.quantity ?? 0),
+            unit: cur?.unit,
+          };
+        },
+        { quantity: 0, unit: "" }
+      );
+    return {
+      name,
+      amount,
+    };
+  });
 
   const skipMetadata = ["name"];
   const displayMetadata = data.metadata!.filter(
@@ -86,10 +116,20 @@ export const RecipeRoute: React.FC = () => {
         <summary>
           <strong>Ingredients</strong>
         </summary>
-        <ul>
-          {ingredientsFlat.map((ingredient, i) => (
-            <li key={i}>{ingredient}</li>
-          )) ?? null}
+        <ul className="ingredients">
+          {ingredientsWithAmount.map((ingredient, i) => (
+            <li key={i}>
+              <IngredientDisplay
+                input={{
+                  name: ingredient.name,
+                  amount: {
+                    quantity: ingredient.amount?.quantity,
+                    unit: ingredient.amount?.unit,
+                  },
+                }}
+              />
+            </li>
+          ))}
         </ul>
       </details>
       <hr />
