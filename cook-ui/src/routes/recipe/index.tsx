@@ -1,6 +1,7 @@
 import { Link, useLoaderData } from "react-router-dom";
 import { Ingredient, Recipe } from "../../gql/graphql";
 import { useWakeLock } from "../../hooks/use-wake-lock";
+import React from "react";
 
 const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
   if (!input) {
@@ -34,11 +35,34 @@ export const RecipeRoute: React.FC = () => {
       .map((a) => a?.name)
       .filter((ent, cur, arr) => arr.indexOf(ent) === cur) ?? [];
 
+  const skipMetadata = ["name"];
+  const displayMetadata = data.metadata!.filter(
+    (ent) => !skipMetadata.includes(ent?.key!)
+  );
+
   return (
     <>
       <Link to="/">&larr; Home</Link>
       <hr />
       <h1>{data.name}</h1>
+      {displayMetadata.length > 0 ? (
+        <dl>
+          {displayMetadata.map((ent, i) => (
+            <React.Fragment key={i}>
+              <dt>{ent?.key}</dt>
+              <dd>
+                {ent?.value?.startsWith("http") ? (
+                  <a href={ent?.value} target="_blank" rel="noreferrer">
+                    link
+                  </a>
+                ) : (
+                  ent?.value
+                )}
+              </dd>
+            </React.Fragment>
+          ))}
+        </dl>
+      ) : null}
       <hr />
       {wakeLock.isSupported ? (
         <>

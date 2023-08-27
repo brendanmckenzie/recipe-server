@@ -50,3 +50,22 @@ button {
     background-color: #eee;
   }
 }
+
+hr {
+  border: none;
+  border-bottom: 1px solid #eee;
+}
+
+dl {
+  display: flex;
+  font-size: 0.9rem;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 1.5rem;
+}
