@@ -76,7 +76,7 @@ export const RecipeRoute: React.FC = () => {
           ?.filter((step) => Boolean(step?.directions))
           .map((step, i) => (
             <li key={i}>
-              {step?.directions}
+              <p>{step?.directions}</p>
               {(step?.ingredients?.length ?? 0) > 0 && (
                 <ul>
                   {step?.ingredients?.map((ingredient, j) => (
