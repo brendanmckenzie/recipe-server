@@ -3,40 +3,14 @@ package main
 import (
 	"errors"
 	"fmt"
-	"io/fs"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/graphql-go/handler"
 )
 
 func main() {
-
-	http.Handle("/graphql", handler.New(&handler.Config{
-		Schema:   &RecipeSchema,
-		Pretty:   true,
-		GraphiQL: true,
-	}))
-
-	subfs, _ := fs.Sub(content, "cook-ui/build")
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// fallback to root
-		fs := http.FileServer(http.FS(subfs))
-
-		f, err := subfs.Open(r.URL.Path[1:])
-		if err != nil {
-			if os.IsNotExist(err) {
-				r.URL.Path = "/"
-			}
-		} else {
-			f.Close()
-		}
-
-		// default serve
-		fs.ServeHTTP(w, r)
-
-	})
+	http.Handle("/graphql", handleApi)
+	http.Handle("/", staticHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/graphql-go/graphql"
+	"github.com/graphql-go/handler"
 )
 
 var fsys = os.DirFS(os.Getenv("RECIPE_DIR"))
@@ -142,3 +143,9 @@ func resolveRecipe(params graphql.ResolveParams) (interface{}, error) {
 	}
 	return res, err
 }
+
+var handleApi = handler.New(&handler.Config{
+	Schema:   &RecipeSchema,
+	Pretty:   true,
+	GraphiQL: true,
+})
