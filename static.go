@@ -10,12 +10,12 @@ import (
 //go:embed cook-ui/build/*
 var content embed.FS
 
-type StaticHandler struct {
+type SpaHandler struct {
+	Root fs.FS
 }
 
-func (h *StaticHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	subfs, _ := fs.Sub(content, "cook-ui/build")
-	fs := http.FileServer(http.FS(subfs))
+func (h *SpaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fs := http.FileServer(http.FS(h.Root))
 
 	f, err := subfs.Open(r.URL.Path[1:])
 	if err != nil {
@@ -30,4 +30,8 @@ func (h *StaticHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fs.ServeHTTP(w, r)
 }
 
-var staticHandler = &StaticHandler{}
+var subfs, _ = fs.Sub(content, "cook-ui/build")
+
+var staticHandler = &SpaHandler{
+	Root: subfs,
+}

@@ -3,6 +3,33 @@ import { Ingredient, Recipe } from "../../gql/graphql";
 import { useWakeLock } from "../../hooks/use-wake-lock";
 import React from "react";
 
+const quantityDisplay = (input?: number | null): string => {
+  if (!input) {
+    return "";
+  }
+
+  const fracMap: { [key: number]: string } = {
+    0.125: "⅛",
+    0.25: "¼",
+    0.33: "⅓",
+    0.375: "⅜",
+    0.5: "½",
+    0.625: "⅝",
+    0.667: "⅔",
+    0.75: "¾",
+    0.875: "⅞",
+  };
+
+  const frac = input % 1;
+  const whole = input - frac;
+  const fracRound = Math.round(frac * 1000) / 1000;
+
+  if (fracMap[fracRound]) {
+    return `${whole ? whole : ""} ${fracMap[fracRound]}`;
+  }
+  return `${input}`;
+};
+
 const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
   if (!input) {
     return null;
@@ -12,14 +39,15 @@ const IngredientDisplay: React.FC<{ input?: Ingredient }> = ({ input }) => {
       <>
         <span>{input.name}</span>{" "}
         <span>
-          × {input.amount.quantity} {input.amount.unit}
+          × {quantityDisplay(input.amount.quantity)} {input.amount.unit}
         </span>
       </>
     );
   } else if (input.amount?.quantity) {
     return (
       <>
-        <span>{input.name}</span> <span>× {input.amount.quantity}</span>
+        <span>{input.name}</span>{" "}
+        <span>× {quantityDisplay(input.amount.quantity)}</span>
       </>
     );
   }
