@@ -11,6 +11,7 @@ Welcome to the Recipe Server! This project is designed to provide a simple web i
   - [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Running the Application](#running-the-application)
+- [Building the Application](#building-the-application)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -79,14 +80,14 @@ recipe-server/
 
 ## Running the Application
 
-1. **Start the Backend:**
+1. **Start the Backend**
 
    ```
    RECIPE_DIR="/path/to/folder/containing/.cook/files"
    go run .
    ```
 
-2. **Start the Frontend:**
+2. **Start the Frontend**
 
    ```
    cd cook-ui
@@ -94,6 +95,8 @@ recipe-server/
    ```
 
 3. Access the application in your web browser at `http://localhost:3000`.
+
+The frontend is configured to proxy requests to the backend server running on port 8080. This allows the frontend to make requests to the backend without having to worry about CORS issues.
 
 ## Building the Application
 
