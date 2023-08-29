@@ -11,7 +11,7 @@ const quantityDisplay = (input?: number | null): string => {
   const fracMap: { [key: number]: string } = {
     0.125: "⅛",
     0.25: "¼",
-    0.33: "⅓",
+    0.333: "⅓",
     0.375: "⅜",
     0.5: "½",
     0.625: "⅝",
