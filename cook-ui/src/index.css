@@ -91,3 +91,8 @@ dd {
     justify-content: space-between;
   }
 }
+
+details > summary {
+  cursor: pointer;
+  user-select: none;
+}
