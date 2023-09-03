@@ -32,7 +32,7 @@ export const HomeRoute: React.FC = () => {
         </ul>
       ) : null}
       <hr />
-      <ul>
+      <ul className="folder">
         {path ? (
           <li>
             <Link
