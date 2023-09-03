@@ -1,5 +1,8 @@
-query ListRecipes {
-  recipes
+query ListFolder($path: String) {
+  folder(path: $path) {
+    name
+    type
+  }
 }
 
 query GetRecipe($path: String!) {

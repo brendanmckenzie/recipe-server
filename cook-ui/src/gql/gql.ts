@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "query ListRecipes {\n  recipes\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}": types.ListRecipesDocument,
+    "query ListFolder($path: String) {\n  folder(path: $path) {\n    name\n    type\n  }\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}": types.ListFolderDocument,
 };
 
 /**
@@ -33,7 +33,7 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query ListRecipes {\n  recipes\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}"): (typeof documents)["query ListRecipes {\n  recipes\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}"];
+export function graphql(source: "query ListFolder($path: String) {\n  folder(path: $path) {\n    name\n    type\n  }\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}"): (typeof documents)["query ListFolder($path: String) {\n  folder(path: $path) {\n    name\n    type\n  }\n}\n\nquery GetRecipe($path: String!) {\n  recipe(path: $path) {\n    metadata {\n      key\n      value\n    }\n    name\n    steps {\n      directions\n      ingredients {\n        amount {\n          isNumeric\n          quantity\n          unit\n        }\n        name\n      }\n    }\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

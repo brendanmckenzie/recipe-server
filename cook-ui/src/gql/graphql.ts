@@ -16,6 +16,17 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type FolderItem = {
+  __typename?: 'FolderItem';
+  name?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<FolderItemType>;
+};
+
+export enum FolderItemType {
+  Folder = 'FOLDER',
+  Recipe = 'RECIPE'
+}
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   amount?: Maybe<IngredientAmount>;
@@ -44,8 +55,13 @@ export type Recipe = {
 
 export type RootQuery = {
   __typename?: 'RootQuery';
+  folder?: Maybe<Array<Maybe<FolderItem>>>;
   recipe?: Maybe<Recipe>;
-  recipes?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+
+export type RootQueryFolderArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -59,10 +75,12 @@ export type Step = {
   ingredients?: Maybe<Array<Maybe<Ingredient>>>;
 };
 
-export type ListRecipesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListFolderQueryVariables = Exact<{
+  path?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type ListRecipesQuery = { __typename?: 'RootQuery', recipes?: Array<string | null> | null };
+export type ListFolderQuery = { __typename?: 'RootQuery', folder?: Array<{ __typename?: 'FolderItem', name?: string | null, type?: FolderItemType | null } | null> | null };
 
 export type GetRecipeQueryVariables = Exact<{
   path: Scalars['String']['input'];
@@ -72,5 +90,5 @@ export type GetRecipeQueryVariables = Exact<{
 export type GetRecipeQuery = { __typename?: 'RootQuery', recipe?: { __typename?: 'Recipe', name?: string | null, metadata?: Array<{ __typename?: 'MapValue', key?: string | null, value?: string | null } | null> | null, steps?: Array<{ __typename?: 'Step', directions?: string | null, ingredients?: Array<{ __typename?: 'Ingredient', name?: string | null, amount?: { __typename?: 'IngredientAmount', isNumeric?: boolean | null, quantity?: number | null, unit?: string | null } | null } | null> | null } | null> | null } | null };
 
 
-export const ListRecipesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListRecipes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipes"}}]}}]} as unknown as DocumentNode<ListRecipesQuery, ListRecipesQueryVariables>;
+export const ListFolderDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ListFolder"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"folder"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<ListFolderQuery, ListFolderQueryVariables>;
 export const GetRecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRecipe"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipe"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"key"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"steps"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"directions"}},{"kind":"Field","name":{"kind":"Name","value":"ingredients"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isNumeric"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"unit"}}]}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetRecipeQuery, GetRecipeQueryVariables>;
