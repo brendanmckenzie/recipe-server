@@ -100,8 +100,6 @@ export const RecipeRoute: React.FC = () => {
 
   return (
     <>
-      <Link to="/">&larr; Home</Link>
-      <hr />
       <h1>{data.name}</h1>
       {displayMetadata.length > 0 ? (
         <dl>
@@ -181,8 +179,6 @@ export const RecipeRoute: React.FC = () => {
             </li>
           )) ?? null}
       </ol>
-      <hr />
-      <Link to="/">&larr; Home</Link>
     </>
   );
 };
