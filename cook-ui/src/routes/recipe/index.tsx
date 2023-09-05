@@ -103,20 +103,25 @@ export const RecipeRoute: React.FC = () => {
       <h1>{data.name}</h1>
       {displayMetadata.length > 0 ? (
         <dl>
-          {displayMetadata.map((ent, i) => (
-            <React.Fragment key={i}>
-              <dt>{ent?.key}</dt>
-              <dd>
-                {ent?.value?.startsWith("http") ? (
-                  <a href={ent?.value} target="_blank" rel="noreferrer">
-                    link
-                  </a>
-                ) : (
-                  ent?.value
-                )}
-              </dd>
-            </React.Fragment>
-          ))}
+          {displayMetadata.map((ent, i) => {
+            const isLink = ent?.value?.startsWith("http");
+            return (
+              <React.Fragment key={i}>
+                <dt className={isLink ? "hidden-print" : undefined}>
+                  {ent?.key}
+                </dt>
+                <dd className={isLink ? "hidden-print" : undefined}>
+                  {isLink ? (
+                    <a href={ent?.value!} target="_blank" rel="noreferrer">
+                      link
+                    </a>
+                  ) : (
+                    ent?.value
+                  )}
+                </dd>
+              </React.Fragment>
+            );
+          })}
         </dl>
       ) : null}
       <hr />
@@ -124,6 +129,7 @@ export const RecipeRoute: React.FC = () => {
         <>
           <button
             type="button"
+            className="hidden-print"
             onClick={() =>
               wakeLock.released === false
                 ? wakeLock.release()
@@ -135,10 +141,10 @@ export const RecipeRoute: React.FC = () => {
               : "Keep screen active"}
           </button>
 
-          <hr />
+          <hr className="hidden-print" />
         </>
       ) : null}
-      <details>
+      <details className="hidden-print">
         <summary>
           <strong>Ingredients</strong>
         </summary>
@@ -158,7 +164,7 @@ export const RecipeRoute: React.FC = () => {
           ))}
         </ul>
       </details>
-      <hr />
+      <hr className="hidden-print" />
 
       <h2>Method</h2>
       <ol>
