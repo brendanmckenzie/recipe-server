@@ -165,8 +165,6 @@ export const RecipeRoute: React.FC = () => {
         </ul>
       </details>
       <hr className="hidden-print" />
-
-      <h2>Method</h2>
       <ol>
         {data.steps
           ?.filter((step) => Boolean(step?.directions))

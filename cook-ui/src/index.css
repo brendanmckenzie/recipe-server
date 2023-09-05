@@ -17,24 +17,42 @@ a:hover {
 }
 
 ol {
-  padding-inline-start: 3ch;
+  list-style: none;
+  counter-reset: steps;
+  padding: 0;
 }
-
 ol > li {
+  counter-increment: steps;
   margin-bottom: 1rem;
+
+  display: grid;
+  grid-template-areas:
+    "marker body"
+    "marker ingredients";
+  grid-template-columns: auto 1fr;
+
+  gap: 1rem;
 }
 
-ol > li p {
-  margin-bottom: 0.25rem;
+ol > li > p {
+  grid-area: body;
+  margin: 0;
 }
 ol > li > ul {
+  grid-area: ingredients;
   list-style-type: none;
   text-align: right;
   font-size: 0.9rem;
 }
 
-h1,
-h2 {
+ol > li:before {
+  grid-area: marker;
+  content: counter(steps);
+  font-weight: lighter;
+  font-size: 2rem;
+}
+
+h1 {
   margin: 0;
 }
 
@@ -89,6 +107,14 @@ dd {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
+  }
+
+  ol > li {
+    gap: 0.5rem;
+  }
+  ol > li:before {
+    font-size: 1rem;
+    font-weight: bold;
   }
 }
 
