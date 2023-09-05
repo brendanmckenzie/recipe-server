@@ -1,7 +1,7 @@
-import { Link, useLoaderData } from "react-router-dom";
+import React from "react";
+import { useLoaderData } from "react-router-dom";
 import { Ingredient, Recipe } from "../../gql/graphql";
 import { useWakeLock } from "../../hooks/use-wake-lock";
-import React from "react";
 
 const quantityDisplay = (input?: number | null): string => {
   if (!input) {
