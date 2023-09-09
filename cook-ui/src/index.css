@@ -136,6 +136,10 @@ details > summary {
   list-style-type: none;
 }
 
+.folder li {
+  padding: 0.375rem 0;
+}
+
 @media print {
   .hidden-print {
     display: none;
