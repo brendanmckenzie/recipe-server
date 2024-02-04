@@ -2,6 +2,7 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { Ingredient, Recipe } from "../../gql/graphql";
 import { useWakeLock } from "../../hooks/use-wake-lock";
+import Markdown from "react-markdown";
 
 const quantityDisplay = (input?: number | null): string => {
   if (!input) {
@@ -170,7 +171,7 @@ export const RecipeRoute: React.FC = () => {
           ?.filter((step) => Boolean(step?.directions))
           .map((step, i) => (
             <li key={i}>
-              <p>{step?.directions}</p>
+              <Markdown>{step?.directions}</Markdown>
               {(step?.ingredients?.length ?? 0) > 0 && (
                 <ul>
                   {step?.ingredients?.map((ingredient, j) => (
